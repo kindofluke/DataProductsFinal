@@ -25,7 +25,7 @@ shinyServer(function(input, output) {
   d <- reactdata()[,c("FSRPTH07", "POVRATE10","MEDHHINC10","State", "County")]
   f <- list(
     family = "Tahoma",
-    size = 10,
+    size = 8,
     color = "#7f7f7f"
   )
   x <- list(
@@ -42,14 +42,14 @@ shinyServer(function(input, output) {
           
           
           ) %>%
-    layout(xaxis = x, yaxis = y, title="Fast Food Restaurants per 1000 Residents and County Poverty Rate", font=list(size=14, color="navy"))
+    layout(xaxis = x, yaxis = y, title="Fast Food Restaurants per 1000 Residents and County Poverty Rate", font=list(size=12, color="navy"))
   
   })
   
   output$incPlot <- renderPlotly({
     f <- list(
       family = "Tahoma",
-      size = 10,
+      size = 8,
       color = "#7f7f7f"
     )
     x <- list(
@@ -66,7 +66,7 @@ shinyServer(function(input, output) {
     
     plot_ly(d,x= ~FSRPTH07, y = ~MEDHHINC10, name= "Fast Food Restaurants per 1000 Residents and County Median income Rate", mode="markers",  type="scatter", color=~ State,  text = ~paste("County: ", County),
             marker=list(size=15, width=8)) %>%
-              layout(xaxis = x, yaxis = y, title="Fast Food Restaurants per 1000 Residents and County Median income Rate", font=list(size=14, color="navy"))
+              layout(xaxis = x, yaxis = y, title="Fast Food Restaurants per 1000 Residents and County Median income Rate", font=list(size=12, color="navy"))
             
   })
   

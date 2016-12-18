@@ -26,7 +26,7 @@ shinyUI(fluidPage(
     # Show a plot of the generated distribution
     mainPanel(
       tabsetPanel(
-        tabPanel("Plots", fluidRow(plotlyOutput("povPlot")), fluidRow(plotlyOutput("incPlot")) ),
+        tabPanel("Plots", div(plotlyOutput("povPlot")), div(plotlyOutput("incPlot")) ),
         tabPanel("Documentation", includeHTML("documentation.html"))
       )
 
