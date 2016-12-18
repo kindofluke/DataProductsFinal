@@ -6,6 +6,7 @@
 #
 
 library(shiny)
+library(plotly)
 source("RestaurantDataPrep.R")
 
 shinyServer(function(input, output) {
@@ -20,19 +21,55 @@ shinyServer(function(input, output) {
     
   })
   
-  output$povPlot <- renderPlot({
-  print("start")
-  x <- reactdata()$FSRPTH07
-  y_poverty <- reactdata()$POVRATE10
-  plot(x,y_poverty,xlab="Fast Food Restaurants per 1000", ylab="Poverty Rate", col="lightgreen", pch = 20, cex = 3)
+  output$povPlot <- renderPlotly({
+  d <- reactdata()[,c("FSRPTH07", "POVRATE10","MEDHHINC10","State", "County")]
+  f <- list(
+    family = "Tahoma",
+    size = 10,
+    color = "#7f7f7f"
+  )
+  x <- list(
+    title = "Fast Food per 1000 Residents",
+    titlefont = f
+  )
+  y <- list(
+    title = "County Poverty Rate Income",
+    titlefont = f
+  )
+  plot_ly(d,x= ~FSRPTH07, y = ~POVRATE10, name="Fast Food Restaurants per 1000 Residents and County Poverty Rate" , mode="markers",  type="scatter", color=~ State,  text = ~paste("County: ", County),
+        marker=list(size=15, width=8)
+          
+          
+          
+          ) %>%
+    layout(xaxis = x, yaxis = y, title="Fast Food Restaurants per 1000 Residents and County Poverty Rate", font=list(size=14, color="navy"))
   
   })
   
-  output$incPlot <- renderPlot({
-    x_2 <- reactdata()$FSRPTH07
-    y_income <- reactdata()$MEDHHINC10
-    plot(x_2,y_income, col="lightblue",xlab="Fast Food Restaurants per 1000", ylab="Median Househodl Income",  pch = 20, cex = 3)
+  output$incPlot <- renderPlotly({
+    f <- list(
+      family = "Tahoma",
+      size = 10,
+      color = "#7f7f7f"
+    )
+    x <- list(
+      title = "Fast Food per 1000 Residents",
+      titlefont = f
+    )
+    y <- list(
+      title = "County Median Household Income",
+      titlefont = f
     
+    )
+    
+    d <- reactdata()[,c("FSRPTH07", "POVRATE10","MEDHHINC10","State", "County")]
+    
+    plot_ly(d,x= ~FSRPTH07, y = ~MEDHHINC10, name= "Fast Food Restaurants per 1000 Residents and County Median income Rate", mode="markers",  type="scatter", color=~ State,  text = ~paste("County: ", County),
+            marker=list(size=15, width=8)) %>%
+              layout(xaxis = x, yaxis = y, title="Fast Food Restaurants per 1000 Residents and County Median income Rate", font=list(size=14, color="navy"))
+            
   })
+  
+  
 
 })
