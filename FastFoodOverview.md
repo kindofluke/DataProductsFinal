@@ -1,4 +1,4 @@
-Overview
+Testing Penetration of Fast-Food Restaurants
 ========================================================
 author: Luke Shulman
 date: 12/18/2016
@@ -25,7 +25,7 @@ There has been tremendous attention paid to communities that only have access to
 - [Zoning to Encourage Health Eating](https://www.cdc.gov/phlp/winnable/zoning_obesity.html) *CDC*
 - [Toxic Food Environment](https://www.hsph.harvard.edu/obesity-prevention-source/obesity-causes/food-environment-and-obesity/) *Harvard Schol of Public Healht*
 
-We will look at two variables "Poverty Rate", and "Median Household Income" to see if they have an effect on the number of Fast Food Restaurant penetration. 
+We will look at two variables "Poverty Rate", and "Median Household Income" to see if they have an effect on the number of Fast Food Restaurants in a population. 
 
 Prepping the data
 ========================================================
@@ -43,9 +43,21 @@ fullresult <- merge(limitRestaurant, countysocial, ID="FIPS" )
 
 Results
 ========================================================
-The full application is available as a shiny app. This plot shows the results for California and Washington state.
+The full application is available as a [shiny app](https://kindofluke.shinyapps.io/DataProductsFinal/). This is a sample plot shows the results for California and Washington state.
 
-It shows no correlation.  
+It shows no correlation between the number of fast food restaurants per 100 residents (avg about 1.4) and the poverty rate of the counties. 
+
 <small>
+
+```r
+source("RestaurantDataPrep.R")
+library(ggplot2)
+d <-  subset(fullresult, fullresult$State == c("CA", "WA"))
+gg <- ggplot(d) +
+      geom_point(aes(x=d$FSRPTH07, y=d$POVRATE10, color = d$State)) +
+      labs(title = "CA and WA Counties Fast Food Per 100 vs. Poverty Rate", x = "Fass food per 1000 Residents", y = "Poverty Rate")
+gg
+```
+
 ![plot of chunk unnamed-chunk-2](FastFoodOverview-figure/unnamed-chunk-2-1.png)
 </small>
